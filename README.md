@@ -10,7 +10,7 @@ ofensiva. Son tres piezas:
 - `victima.py` — **victima** (opcional): cuenta los paquetes que recibe por
   segundo. Puedes usar Wireshark en su lugar.
 
-> Uso exclusivo en un laboratorio aislado y controlado (maquinas tuyas o VMs
+> Uso exclusivo en un laboratorio aislado y controlado (maquinas o VMs
 > en una red privada). No lo uses contra equipos o redes de terceros.
 
 ## Como probarlo
